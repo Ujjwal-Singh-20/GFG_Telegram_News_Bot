@@ -1,0 +1,34 @@
+CREATE TABLE articles_master (
+    id BIGSERIAL PRIMARY KEY,
+    url TEXT UNIQUE NOT NULL,
+    title TEXT,
+    content TEXT,
+    summary TEXT,
+    source TEXT,
+    published_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE article_embeddings (
+    id BIGSERIAL PRIMARY KEY,
+    article_id BIGINT UNIQUE REFERENCES articles_master(id) ON DELETE CASCADE,
+    embedding VECTOR(384)
+);
+
+CREATE TABLE daily_digest (
+    id BIGSERIAL PRIMARY KEY,
+    article_id BIGINT REFERENCES articles_master(id) ON DELETE CASCADE,
+    digest_date DATE NOT NULL,
+    rank INT,
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(article_id, digest_date)
+);
+
+CREATE TABLE news_stats (
+    id BIGSERIAL PRIMARY KEY,
+    date DATE DEFAULT CURRENT_DATE,
+    total_fetched INT,
+    total_unique INT,
+    total_sent INT,
+    created_at TIMESTAMP DEFAULT NOW()
+);

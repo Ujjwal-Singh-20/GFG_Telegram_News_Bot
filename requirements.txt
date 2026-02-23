@@ -1,0 +1,7 @@
+numpy
+feedparser
+python-dotenv
+supabase
+scikit-learn
+google-genai
+requests
