@@ -47,7 +47,7 @@ name: Daily Telegram Tech News Pipeline
 on:
   schedule:
     - cron: "45 13 * * *"
-#  workflow_dispatch:  # Allows manual run from GitHub UI
+  workflow_dispatch:  # Allows manual run from GitHub UI
 
 jobs:
   run-pipeline:
