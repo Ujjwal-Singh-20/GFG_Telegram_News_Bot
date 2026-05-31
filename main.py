@@ -333,7 +333,7 @@ def run_pipeline():
             article_block = f"<b>{article_title}</b>\n"
             article_block += f"<i>{article_source}</i>\n"
             article_block += f"<blockquote>{summary}</blockquote>\n"
-            article_block += f"🔗 <a href='{article_url}'>Read Full Story</a>\n\n"
+            article_block += f"🔗 <a href=\"{article_url}\">Read Full Story</a>\n\n"
             
             footer = "━━━━━━━━━━━━━━━━━━\n<i>Stay informed.</i>"
             if len(current_msg) + len(article_block) + len(footer) > 4000:
