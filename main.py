@@ -320,15 +320,19 @@ def run_pipeline():
         digest_msg = f"<b>Daily Tech Hub — {datetime.now().strftime('%d %b %Y')}</b>\n"
         digest_msg += "━━━━━━━━━━━━━━━━━━\n\n"
         
+        import html
         for i, item in enumerate(selected_data):
             idx = item["index"] - 1
-            summary = item["summary"]
+            summary = html.escape(item["summary"])
             article = unique_articles[idx]
+            article_title = html.escape(article["title"])
+            article_source = html.escape(article["source"])
+            article_url = html.escape(article["url"])
             
-            digest_msg += f"<b>{article['title']}</b>\n"
-            digest_msg += f"<i>{article['source']}</i>\n"
+            digest_msg += f"<b>{article_title}</b>\n"
+            digest_msg += f"<i>{article_source}</i>\n"
             digest_msg += f"<blockquote>{summary}</blockquote>\n"
-            digest_msg += f"🔗 <a href='{article['url']}'>Read Full Story</a>\n\n"
+            digest_msg += f"🔗 <a href='{article_url}'>Read Full Story</a>\n\n"
         
         digest_msg += "━━━━━━━━━━━━━━━━━━\n"
         digest_msg += "<i>Stay informed.</i>"
