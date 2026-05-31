@@ -5,3 +5,4 @@ supabase
 scikit-learn
 google-genai
 requests
+html
