@@ -27,5 +27,8 @@ def send_telegram_message(message):
         print("Telegram message sent successfully!")
         return True
     except Exception as e:
-        print(f"Error sending Telegram message: {e}")
+        if 'response' in locals() and response is not None:
+            print(f"Error sending Telegram message: {e}. Response: {response.text}")
+        else:
+            print(f"Error sending Telegram message: {e}")
         return False
