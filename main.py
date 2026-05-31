@@ -317,8 +317,9 @@ def run_pipeline():
         selected_data = json.loads(clean_json)
         total_sent = len(selected_data)
         
-        digest_msg = f"<b>Daily Tech Hub — {datetime.now().strftime('%d %b %Y')}</b>\n"
-        digest_msg += "━━━━━━━━━━━━━━━━━━\n\n"
+        messages_to_send = []
+        current_msg = f"<b>Daily Tech Hub — {datetime.now().strftime('%d %b %Y')}</b>\n"
+        current_msg += "━━━━━━━━━━━━━━━━━━\n\n"
         
         import html
         for i, item in enumerate(selected_data):
@@ -329,15 +330,27 @@ def run_pipeline():
             article_source = html.escape(article["source"])
             article_url = html.escape(article["url"])
             
-            digest_msg += f"<b>{article_title}</b>\n"
-            digest_msg += f"<i>{article_source}</i>\n"
-            digest_msg += f"<blockquote>{summary}</blockquote>\n"
-            digest_msg += f"🔗 <a href='{article_url}'>Read Full Story</a>\n\n"
+            article_block = f"<b>{article_title}</b>\n"
+            article_block += f"<i>{article_source}</i>\n"
+            article_block += f"<blockquote>{summary}</blockquote>\n"
+            article_block += f"🔗 <a href='{article_url}'>Read Full Story</a>\n\n"
+            
+            footer = "━━━━━━━━━━━━━━━━━━\n<i>Stay informed.</i>"
+            if len(current_msg) + len(article_block) + len(footer) > 4000:
+                current_msg += footer
+                messages_to_send.append(current_msg)
+                
+                current_msg = f"<b>Daily Tech Hub (Part {len(messages_to_send) + 1}) — {datetime.now().strftime('%d %b %Y')}</b>\n"
+                current_msg += "━━━━━━━━━━━━━━━━━━\n\n"
+                
+            current_msg += article_block
+            
+        current_msg += "━━━━━━━━━━━━━━━━━━\n"
+        current_msg += "<i>Stay informed.</i>"
+        messages_to_send.append(current_msg)
         
-        digest_msg += "━━━━━━━━━━━━━━━━━━\n"
-        digest_msg += "<i>Stay informed.</i>"
-        
-        send_telegram_message(digest_msg)
+        for msg in messages_to_send:
+            send_telegram_message(msg)
     except Exception as e:
         print(f"Error preparing Telegram message: {e}")
 
