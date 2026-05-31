@@ -1,7 +1,6 @@
 import requests
 import os
 from dotenv import load_dotenv
-import html
 
 load_dotenv()
 
@@ -17,7 +16,7 @@ def send_telegram_message(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {
         "chat_id": TELEGRAM_CHAT_ID,
-        "text": html.escape(message),
+        "text": message,
         "parse_mode": "HTML",
         "disable_web_page_preview": True
     }
